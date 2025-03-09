@@ -1,0 +1,72 @@
+.container {
+  margin: 0 auto;
+  max-width: 1440px;
+}
+
+.header {
+  background-color: #fff;
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+    padding: 0 20px;
+    width: 100%;
+  }
+  &__logoTitle {
+    color: #000;
+    font-size: 18px;
+  }
+  &__buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 25px;
+  }
+  &__profileLink {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  &__profile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 13px;
+  }
+  &__username {
+    font-size: 18px;
+    color: rgba(0, 0, 0, 0.85);
+  }
+  &__createArticle {
+    font-size: 18px;
+    padding: 6px 10px;
+    border: 1px solid #52c41a;
+    color: #52c41a;
+    border-radius: 5px;
+  }
+  &__signIn {
+    color: #000000d9;
+    font-size: 18px;
+    line-height: 28px;
+  }
+  &__signUp {
+    font-size: 18px;
+    padding: 8px 18px;
+    border: 1px solid #52c41a;
+    color: #52c41a;
+    border-radius: 5px;
+  }
+  &__logOut {
+    font-size: 18px;
+    padding: 8px 18px;
+    border: 1px solid rgba(0, 0, 0, 0.75);
+    color: rgba(0, 0, 0, 0.75);
+    border-radius: 5px;
+  }
+  &__img {
+    border-radius: 50%;
+    height: 46px;
+    width:  46px;
+  }
+}

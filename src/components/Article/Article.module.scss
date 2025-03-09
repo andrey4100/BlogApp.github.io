@@ -1,0 +1,123 @@
+.article {
+  display: block;
+  margin-bottom: 26px;
+  &__container {
+    background-color: #fff;
+    display: flex;
+    height: 140px;
+    justify-content: space-between;
+    max-width: 940px;
+    padding: 16px 15px;
+    width: 100%;
+    box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.15);
+  }
+  &__decription {
+    max-width: 682px;
+    width: 100%;
+  }
+  &__titleBlock {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+  &__title {
+    color: #1890ff;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 140%;
+    margin: 0 13px 0 0;
+    max-width: 500px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  &__likeBlock {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &__likeCount {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 183%;
+    color: rgba(0, 0, 0, 1);
+  }
+  &__tagsList {
+    margin-bottom: 10px;
+    max-height: 20px;
+    max-width: 500px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  &__tag {
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    border-radius: 2px;
+    display: inline-block;
+    height: 20px;
+    margin-right: 8px;
+    overflow: hidden;
+    padding: 2px 4px 0;
+  }
+  &__tagText {
+    color: #00000080;
+    display: inline-block;
+    font-size: 12px;
+    margin: 0;
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  &__text {
+    color:  rgba(0, 0, 0, .7);
+    font-size: 12px;
+    line-height: 183%;
+    margin: 0;
+    overflow: hidden;
+    display: -webkit-box;
+    line-clamp: 2;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+  &__author {
+    max-width: 220px;
+    align-items: center;
+    display: flex;
+    height: 46px;
+    justify-content: right;
+  }
+  &__info {
+    margin-right: 12px;
+  }
+  &__name {
+    color: #000000d9;
+    font-size: 18px;
+    line-height: 28px;
+    margin: 0;
+    text-align: right;
+  }
+  &__date {
+    color: #00000080;
+    margin: 0;
+    text-align: right;
+  }
+  &__button {
+    background: url(../../assets/img/heart.svg) no-repeat 50%;
+    border: none;
+    cursor: pointer;
+    height: 16px;
+    width: 16px;
+    margin-right: 5px;
+  }
+  &__img {
+    border-radius: 50%;
+    height: 46px;
+    width:  46px;
+  }
+}
+
+.active {
+  background: url(../../assets/img/heart-active.svg) no-repeat 50%;
+  height: 14px;
+}
+
