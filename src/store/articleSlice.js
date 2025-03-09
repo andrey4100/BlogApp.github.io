@@ -243,7 +243,7 @@ const articles = createSlice({
         state.status = 'resolved';
         state.error = null;
         state.list = state.list.filter((article) => article.id !== action.payload.id);
-        state.articlesCount -=1;
+        state.articlesCount -= 1;
       })
       .addCase(deleteArticle.rejected, (state, action) => {
         state.status = 'rejected';
