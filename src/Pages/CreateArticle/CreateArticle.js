@@ -8,7 +8,6 @@ import styles from './CreateArticle.module.scss';
 
 import { createArticle, updateArticle } from '../../store/articleSlice';
 
-
 function CreateArticle() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -67,9 +66,7 @@ function CreateArticle() {
     try {
       const article = location.state?.article;
       if (article) {
-        await dispatch(
-          updateArticle({ apiToken, slug: article.slug, dataForUpdatingAnArticle: articleData })
-        ).unwrap();
+        await dispatch(updateArticle({ apiToken, slug: article.slug, dataForUpdatingAnArticle: articleData })).unwrap();
       } else {
         await dispatch(createArticle({ apiToken, dataForCreatingAnArticle: articleData })).unwrap();
       }
@@ -79,8 +76,6 @@ function CreateArticle() {
       console.error('Failed to create/update article:', err);
     }
   };
-
-
 
   return (
     <div className={styles.container}>
@@ -158,7 +153,11 @@ function CreateArticle() {
           ))}
         </div>
 
-        <button className={styles.createArticle__send} type="submit" disabled={status === 'loading' || Object.keys(errors).length > 0}>
+        <button
+          className={styles.createArticle__send}
+          type="submit"
+          disabled={status === 'loading' || Object.keys(errors).length > 0}
+        >
           {status === 'loading' ? 'Creating...' : 'Send'}
         </button>
         {error && <p className={styles.error}>{error}</p>}

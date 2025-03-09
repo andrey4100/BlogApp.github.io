@@ -72,7 +72,11 @@ function Login() {
         </div>
         {status === 'loading'}
         {error && <p>Error: {error}</p>}
-        <button className={styles.login__button} type="submit" disabled={status === 'loading' || Object.keys(errors).length > 0}>
+        <button
+          className={styles.login__button}
+          type="submit"
+          disabled={status === 'loading' || Object.keys(errors).length > 0}
+        >
           Login
         </button>
         <div className={styles.login__footer}>

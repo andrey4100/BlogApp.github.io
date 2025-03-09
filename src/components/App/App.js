@@ -9,8 +9,8 @@ import Login from '../../Pages/Login';
 import Registration from '../../Pages/Registration';
 import PrivateRoute from '../PrivateRoute';
 import Profile from '../../Pages/Profile';
-import CurrentArticle from '../../Pages/CurrentArticle'; 
-import CreateArticle from '../../Pages/CreateArticle'; 
+import CurrentArticle from '../../Pages/CurrentArticle';
+import CreateArticle from '../../Pages/CreateArticle';
 
 function App() {
   return (
@@ -19,7 +19,7 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/articles" element={<Home />} /> 
+          <Route path="/articles" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Registration />} />
           <Route path="/page/:numberPage" element={<Home />} />

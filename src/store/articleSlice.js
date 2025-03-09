@@ -4,8 +4,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 // Базовый URL API, используемый во всех запросах
 const apiBase = 'https://blog-platform.kata.academy/api';
 
-
-// Получение списка статей 
+// Получение списка статей
 export const getArticles = createAsyncThunk('articles/getArticles', async ({ skip, apiToken }, { rejectWithValue }) => {
   try {
     const res = await fetch(`${apiBase}/articles?offset=${skip}`, {
@@ -68,14 +67,13 @@ export const createArticle = createAsyncThunk(
 
       if (!res.ok) {
         const errorData = await res.json();
-        return rejectWithValue(errorData.errors || 'Something went wrong'); 
+        return rejectWithValue(errorData.errors || 'Something went wrong');
       }
     } catch (err) {
       return rejectWithValue(err.message);
     }
   }
 );
-
 
 // Функция для обновления статьи
 export const updateArticle = createAsyncThunk(
@@ -96,7 +94,7 @@ export const updateArticle = createAsyncThunk(
 
       if (!res.ok) {
         const errorData = await res.json();
-        return rejectWithValue(errorData.errors || 'Something went wrong'); 
+        return rejectWithValue(errorData.errors || 'Something went wrong');
       }
     } catch (err) {
       return rejectWithValue(err.message);
@@ -126,7 +124,6 @@ export const deleteArticle = createAsyncThunk(
   }
 );
 
-  
 // Функция для добавления статьи в избранное
 export const favoriteArticle = createAsyncThunk(
   'articles/favoriteArticle',
@@ -151,7 +148,6 @@ export const favoriteArticle = createAsyncThunk(
     }
   }
 );
-
 
 // Функция для удаление статьи из избранного
 export const unfavoriteArticle = createAsyncThunk(
@@ -263,7 +259,7 @@ const articles = createSlice({
         state.status = 'resolved';
         state.list = action.payload.articles;
         state.articlesCount = action.payload.articlesCount;
-    })
+      })
       .addCase(getArticles.rejected, (state, action) => {
         state.status = 'rejected';
         state.error = action.payload;

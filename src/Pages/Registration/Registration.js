@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form'; 
+import { useForm } from 'react-hook-form';
 
 import { signUp } from '../../store/userSlice';
 
@@ -12,22 +12,22 @@ function Registration() {
   const navigate = useNavigate();
   const { status, error } = useSelector((state) => state.user);
 
-    const {
-      register,  
-      handleSubmit, 
-      formState: { errors }, 
-      watch 
-    } = useForm({
-      mode: 'onBlur',
-    });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+  } = useForm({
+    mode: 'onBlur',
+  });
 
-  const password = watch("password"); 
+  const password = watch('password');
 
-  const onSubmit = async (data) => { 
+  const onSubmit = async (data) => {
     try {
       await dispatch(signUp({ username: data.username, email: data.email, password: data.password })).unwrap();
       navigate('/');
-    // eslint-disable-next-line no-shadow
+      // eslint-disable-next-line no-shadow
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error('Registration failed:', error);
@@ -43,7 +43,7 @@ function Registration() {
             Username
           </label>
           <input
-            className={`${styles.registration__input} ${errors.username ? styles.errorInput : ''}`} 
+            className={`${styles.registration__input} ${errors.username ? styles.errorInput : ''}`}
             type="text"
             id="username"
             name="username"
@@ -67,7 +67,7 @@ function Registration() {
             Email address
           </label>
           <input
-            className={`${styles.registration__input} ${errors.email ? styles.errorInput : ''}`} 
+            className={`${styles.registration__input} ${errors.email ? styles.errorInput : ''}`}
             type="email"
             id="email"
             name="email"
@@ -80,7 +80,7 @@ function Registration() {
               },
             })}
           />
-          {errors.email && <p className={`${styles.error} ${styles.errorMessage}`}>{errors.email.message}</p>} 
+          {errors.email && <p className={`${styles.error} ${styles.errorMessage}`}>{errors.email.message}</p>}
         </div>
         <div className={styles.registration__block}>
           <label className={styles.registration__label} htmlFor="password">
@@ -111,17 +111,19 @@ function Registration() {
             Repeat Password
           </label>
           <input
-            className={`${styles.registration__input} ${errors.repeat_password ? styles.errorInput : ''}`}  
+            className={`${styles.registration__input} ${errors.repeat_password ? styles.errorInput : ''}`}
             type="password"
             id="repeat_password"
             name="repeat_password"
             placeholder="Password"
             {...register('repeat_password', {
               required: 'This field is required',
-              validate: (value) => value === password || "The passwords must match"
+              validate: (value) => value === password || 'The passwords must match',
             })}
           />
-          {errors.repeat_password && <p className={`${styles.error} ${styles.errorMessage}`}>{errors.repeat_password.message}</p>}
+          {errors.repeat_password && (
+            <p className={`${styles.error} ${styles.errorMessage}`}>{errors.repeat_password.message}</p>
+          )}
         </div>
         <div className={styles.registration__checkbox}>
           <input
@@ -142,7 +144,11 @@ function Registration() {
         </div>
         {status === 'loading'}
         {error && <p>Error: {error}</p>}
-        <button className={styles.registration__button} type="submit" disabled={status === 'loading' || Object.keys(errors).length > 0}>
+        <button
+          className={styles.registration__button}
+          type="submit"
+          disabled={status === 'loading' || Object.keys(errors).length > 0}
+        >
           Create
         </button>
         <div className={styles.registration__footer}>

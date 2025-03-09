@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 
 import styles from './Article.module.scss';
 
-import profile from "../../assets/img/profile.svg"
+import profile from '../../assets/img/profile.svg';
 import { favoriteArticle, unfavoriteArticle } from '../../store/articleSlice';
 
 function Article({ article }) {
@@ -14,7 +14,6 @@ function Article({ article }) {
   const location = useLocation();
 
   const [isFavorited, setIsFavorited] = useState(article.favorited);
-
 
   const handleLikeClick = async (e) => {
     e.preventDefault();
@@ -26,18 +25,18 @@ function Article({ article }) {
 
     if (!apiToken) {
       // eslint-disable-next-line no-console
-      console.error("No API token available");
+      console.error('No API token available');
       return;
     }
 
     try {
-        if (!isFavorited) {
-            await dispatch(favoriteArticle({ apiToken, slug: article.slug })).unwrap();
-            setIsFavorited(true);
-        } else {
-            await dispatch(unfavoriteArticle({ apiToken, slug: article.slug })).unwrap();
-            setIsFavorited(false);
-        }
+      if (!isFavorited) {
+        await dispatch(favoriteArticle({ apiToken, slug: article.slug })).unwrap();
+        setIsFavorited(true);
+      } else {
+        await dispatch(unfavoriteArticle({ apiToken, slug: article.slug })).unwrap();
+        setIsFavorited(false);
+      }
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error('Failed to like/unlike article:', error);
@@ -49,15 +48,15 @@ function Article({ article }) {
       <div className={styles.article__container}>
         <div className={styles.article__decription}>
           <div className={styles.article__titleBlock}>
-          <Link
-            className={styles.article__title}
-            to={{
+            <Link
+              className={styles.article__title}
+              to={{
                 pathname: `/articles/${article.slug}`,
                 state: { from: location.pathname },
-            }}
-        >
-            {article.title}
-        </Link>
+              }}
+            >
+              {article.title}
+            </Link>
             <div className={styles.article__likeBlock}>
               <button
                 className={`${styles.article__button} ${isFavorited ? styles.active : ''}`}

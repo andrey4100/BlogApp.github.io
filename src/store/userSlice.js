@@ -4,7 +4,7 @@ import { createSlice, createAsyncThunk, createAction } from '@reduxjs/toolkit';
 // Базовый URL API, используемый во всех запросах
 const apiBase = 'https://blog-platform.kata.academy/api';
 
-  // Функция: Получение начального состояния из localStorage
+// Функция: Получение начального состояния из localStorage
 const getInitialState = () => {
   try {
     const user = JSON.parse(localStorage.getItem('user'));
@@ -15,7 +15,7 @@ const getInitialState = () => {
     };
   } catch (error) {
     // eslint-disable-next-line no-console
-    console.error("Ошибка при парсинге user из localStorage:", error);
+    console.error('Ошибка при парсинге user из localStorage:', error);
     return {
       status: null,
       errors: {},
@@ -69,13 +69,13 @@ export const signIn = createAsyncThunk('user/signIn', async (loginData, { reject
     });
 
     if (res.status === 422) {
-        const bodyError = await res.json();
-        return rejectWithValue(bodyError.errors);
+      const bodyError = await res.json();
+      return rejectWithValue(bodyError.errors);
     }
 
     if (!res.ok) {
-        const errorData = await res.json();
-        return rejectWithValue(errorData.errors);
+      const errorData = await res.json();
+      return rejectWithValue(errorData.errors);
     }
 
     const body = await res.json();
@@ -114,8 +114,8 @@ export const editProfile = createAsyncThunk('user/editProfile', async (editingDa
     }
 
     if (!res.ok) {
-        const errorData = await res.json();
-        return rejectWithValue(errorData.errors);
+      const errorData = await res.json();
+      return rejectWithValue(errorData.errors);
     }
 
     const body = await res.json();
@@ -125,7 +125,6 @@ export const editProfile = createAsyncThunk('user/editProfile', async (editingDa
     return rejectWithValue({ message: error.message });
   }
 });
-
 
 export const logout = createAction('user/logout');
 
@@ -186,9 +185,6 @@ const userSlice = createSlice({
   },
 });
 
-
 export const { put } = userSlice.actions;
 
 export default userSlice.reducer;
-
-

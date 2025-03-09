@@ -1,20 +1,20 @@
 /* eslint-disable no-shadow */
 import React, { useState, useEffect } from 'react';
 
-import { useNavigate, useParams} from 'react-router-dom'; 
+import { useNavigate, useParams } from 'react-router-dom';
 import Markdown from 'react-markdown';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { deleteArticle, getArticle, favoriteArticle, unfavoriteArticle } from '../../store/articleSlice';
 
 import styles from './CurrentArticle.module.scss';
-import profile from "../../assets/img/profile.svg";
+import profile from '../../assets/img/profile.svg';
 
 function CurrentArticle() {
   const { slug } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  
+
   const article = useSelector((state) => state.articles.list[0]);
   const status = useSelector((state) => state.articles.status);
   const error = useSelector((state) => state.articles.error);
@@ -23,81 +23,79 @@ function CurrentArticle() {
   const apiToken = useSelector((state) => state.user.user.token);
 
   const [showConfirmation, setShowConfirmation] = useState(false);
-    const [isFavorited, setIsFavorited] = useState(article?.favorited || false);
-    const [favoritesCount, setFavoritesCount] = useState(article?.favoritesCount || 0);
+  const [isFavorited, setIsFavorited] = useState(article?.favorited || false);
+  const [favoritesCount, setFavoritesCount] = useState(article?.favoritesCount || 0);
 
-
-    useEffect(() => {
-        if (article) {
-            setIsFavorited(article.favorited);
-            setFavoritesCount(article.favoritesCount);
-        }
-    }, [article]);
+  useEffect(() => {
+    if (article) {
+      setIsFavorited(article.favorited);
+      setFavoritesCount(article.favoritesCount);
+    }
+  }, [article]);
 
   const handleDelete = async () => {
-    setShowConfirmation(true); 
+    setShowConfirmation(true);
   };
 
   const handleConfirmDelete = async () => {
     if (!apiToken) {
       // eslint-disable-next-line no-console
-      console.error("User not logged in or no token available");
+      console.error('User not logged in or no token available');
       return;
     }
     try {
       await dispatch(deleteArticle({ slug, apiToken })).unwrap();
       navigate('/');
-    // eslint-disable-next-line no-shadow
+      // eslint-disable-next-line no-shadow
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error('Failed to delete article:', error);
     }
-    setShowConfirmation(false); 
+    setShowConfirmation(false);
   };
 
   const handleCancelDelete = () => {
     setShowConfirmation(false);
   };
 
-
   const handleEdit = () => {
     navigate('/create-article', { state: { article } });
   };
 
-    const handleLikeClick = async (e) => {
-        e.preventDefault();
-        if (!isLoggedIn) {
-            // eslint-disable-next-line no-alert
-            alert('You must be logged in to like an article.');
-            return;
-        }
+  const handleLikeClick = async (e) => {
+    e.preventDefault();
+    if (!isLoggedIn) {
+      // eslint-disable-next-line no-alert
+      alert('You must be logged in to like an article.');
+      return;
+    }
 
-        if (!apiToken) {
-            // eslint-disable-next-line no-console
-            console.error("No API token available");
-            return;
-        }
+    if (!apiToken) {
+      // eslint-disable-next-line no-console
+      console.error('No API token available');
+      return;
+    }
 
-        try {
-            if (isFavorited) {
-                // Если уже лайкнуто, снимаем лайк
-                await dispatch(unfavoriteArticle({ apiToken, slug })).unwrap();
-                setIsFavorited(false);
-                setFavoritesCount(favoritesCount - 1);
-            } else {
-                // Если не лайкнуто, ставим лайк
-                await dispatch(favoriteArticle({ apiToken, slug })).unwrap();
-                setIsFavorited(true);
-                setFavoritesCount(favoritesCount + 1);
-            }
-        } catch (error) {
-            // eslint-disable-next-line no-console
-            console.error('Failed to like/unlike article:', error);
-        }
-    };
+    try {
+      if (isFavorited) {
+        // Если уже лайкнуто, снимаем лайк
+        await dispatch(unfavoriteArticle({ apiToken, slug })).unwrap();
+        setIsFavorited(false);
+        setFavoritesCount(favoritesCount - 1);
+      } else {
+        // Если не лайкнуто, ставим лайк
+        await dispatch(favoriteArticle({ apiToken, slug })).unwrap();
+        setIsFavorited(true);
+        setFavoritesCount(favoritesCount + 1);
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Failed to like/unlike article:', error);
+    }
+  };
 
   useEffect(() => {
-    dispatch(getArticle({ slug, apiToken: apiToken || '' })); 
+    dispatch(getArticle({ slug, apiToken: apiToken || '' }));
   }, [dispatch, slug, apiToken]);
 
   if (status === 'loading') {
@@ -109,7 +107,6 @@ function CurrentArticle() {
   }
 
   const isAuthor = isLoggedIn && article && currentUsername === article.author.username;
-  
 
   return (
     <div className={styles.container}>
@@ -129,7 +126,7 @@ function CurrentArticle() {
                 </div>
               </div>
               <div className={styles.currentArticle__tagsList}>
-              {(() => {
+                {(() => {
                   const uniqueTags = [...new Set(article.tagList)];
                   return uniqueTags.map((tag) => (
                     <div className={styles.currentArticle__tag} key={tag}>
@@ -151,15 +148,25 @@ function CurrentArticle() {
               </div>
               {isAuthor && (
                 <div className={styles.currentArticle__buttons}>
-                  <button className={styles.currentArticle__delete} type="button" onClick={handleDelete}>Delete</button>
-                  <button className={styles.currentArticle__edit} type="button" onClick={handleEdit}>Edit</button>
-                    <div className={`${styles.currentArticle__notification} ${showConfirmation ? styles.show : ''}`}>
-                      <p className={styles.currentArticle__notificationText}>Are you sure you want to delete this article?</p>
-                      <div className={styles.currentArticle__notificationButtons}>
-                        <button className={styles.currentArticle__buttonNo} type="button" onClick={handleCancelDelete}>No</button>
-                        <button className={styles.currentArticle__buttonYes} type="button" onClick={handleConfirmDelete}>Yes</button>
-                      </div>
+                  <button className={styles.currentArticle__delete} type="button" onClick={handleDelete}>
+                    Delete
+                  </button>
+                  <button className={styles.currentArticle__edit} type="button" onClick={handleEdit}>
+                    Edit
+                  </button>
+                  <div className={`${styles.currentArticle__notification} ${showConfirmation ? styles.show : ''}`}>
+                    <p className={styles.currentArticle__notificationText}>
+                      Are you sure you want to delete this article?
+                    </p>
+                    <div className={styles.currentArticle__notificationButtons}>
+                      <button className={styles.currentArticle__buttonNo} type="button" onClick={handleCancelDelete}>
+                        No
+                      </button>
+                      <button className={styles.currentArticle__buttonYes} type="button" onClick={handleConfirmDelete}>
+                        Yes
+                      </button>
                     </div>
+                  </div>
                 </div>
               )}
             </div>
