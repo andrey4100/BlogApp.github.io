@@ -114,10 +114,10 @@ export const deleteArticle = createAsyncThunk(
           Authorization: `Bearer ${apiToken}`,
         },
       });
-
       if (!res.ok) {
         throw new Error('Something went wrong');
       }
+      return { id: slug };
     } catch (err) {
       return rejectWithValue(err.message);
     }
@@ -217,7 +217,6 @@ const articles = createSlice({
       })
       .addCase(updateArticle.fulfilled, (state) => {
         state.status = 'resolved';
-        state.isReRenderListOfDescription = true;
       })
       .addCase(updateArticle.rejected, (state, action) => {
         state.status = 'rejected';
@@ -230,7 +229,6 @@ const articles = createSlice({
       })
       .addCase(createArticle.fulfilled, (state) => {
         state.status = 'resolved';
-        state.isReRenderListOfDescription = true;
       })
       .addCase(createArticle.rejected, (state, action) => {
         state.status = 'rejected';
@@ -241,10 +239,11 @@ const articles = createSlice({
         state.status = 'loading';
         state.error = null;
       })
-      .addCase(deleteArticle.fulfilled, (state) => {
+      .addCase(deleteArticle.fulfilled, (state, action) => {
         state.status = 'resolved';
         state.error = null;
-        state.isReRenderListOfDescription = true;
+        state.list = state.list.filter((article) => article.id !== action.payload.id);
+        state.articlesCount -=1;
       })
       .addCase(deleteArticle.rejected, (state, action) => {
         state.status = 'rejected';
