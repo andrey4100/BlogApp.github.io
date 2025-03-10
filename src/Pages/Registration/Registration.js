@@ -141,12 +141,12 @@ function Registration() {
             className={styles.registration__labelCheckbox}
             htmlFor="agree"
             onClick={() => {
-              console.log("Label Clicked");
-              console.log("Errors before click:", errors);
+              console.log('Label Clicked');
+              console.log('Errors before click:', errors);
               const checkbox = document.getElementById('agree');
-              console.log("Checkbox element:", checkbox);
+              console.log('Checkbox element:', checkbox);
               if (checkbox) {
-                  console.log("Checkbox checked state before click:", checkbox.checked);
+                console.log('Checkbox checked state before click:', checkbox.checked);
               }
             }}
           >
