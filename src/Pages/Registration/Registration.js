@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable no-console */
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -18,7 +20,7 @@ function Registration() {
     formState: { errors },
     watch,
   } = useForm({
-    mode: 'onBlur',
+    mode: 'onChange',
   });
 
   const password = watch('password');
@@ -135,7 +137,19 @@ function Registration() {
               required: 'You must agree to the processing of personal information',
             })}
           />
-          <label className={styles.registration__labelCheckbox} htmlFor="agree">
+          <label
+            className={styles.registration__labelCheckbox}
+            htmlFor="agree"
+            onClick={() => {
+              console.log("Label Clicked");
+              console.log("Errors before click:", errors);
+              const checkbox = document.getElementById('agree');
+              console.log("Checkbox element:", checkbox);
+              if (checkbox) {
+                  console.log("Checkbox checked state before click:", checkbox.checked);
+              }
+            }}
+          >
             I agree to the processing of my personal information
           </label>
         </div>
