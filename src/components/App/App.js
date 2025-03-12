@@ -40,7 +40,7 @@ function App() {
               </PrivateRoute>
             }
           />
-            <Route
+          <Route
             path="/new-article"
             element={
               <PrivateRoute>

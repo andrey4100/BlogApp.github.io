@@ -81,7 +81,7 @@ export const signIn = createAsyncThunk('user/signIn', async (loginData, { reject
     });
 
     if (res.status === 422) {
-      throw new Error(JSON.stringify({ incorrectPasswordOrEmail: 'The email or password was entered incorrectly' }));
+      throw new Error(JSON.stringify({ incorrectPasswordOrEmail: 'A user with this name already exists' }));
     }
 
     if (!res.ok) {
