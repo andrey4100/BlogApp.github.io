@@ -1,11 +1,16 @@
 import React from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-function PrivateRoute({ element: Element, ...rest }) {
-  const user = useSelector((state) => state.user.user);
+function PrivateRoute({ children }) {
+  const isLoggedIn = useSelector((state) => !!state.user.user?.token);
+  const location = useLocation();
 
-  return user && Object.keys(user).length > 0 ? <Element {...rest} /> : <Navigate to="/login" />;
+  if (!isLoggedIn) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  return children;
 }
 
 export default PrivateRoute;

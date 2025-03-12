@@ -23,9 +23,31 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Registration />} />
           <Route path="/page/:numberPage" element={<Home />} />
-          <Route path="/profile" element={<PrivateRoute element={Profile} />} />
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoute>
+                <Profile />
+              </PrivateRoute>
+            }
+          />
           <Route path="/articles/:slug" element={<CurrentArticle />} />
-          <Route path="/create-article" element={<PrivateRoute element={CreateArticle} />} />
+          <Route
+            path="/create-article"
+            element={
+              <PrivateRoute>
+                <CreateArticle />
+              </PrivateRoute>
+            }
+          />
+            <Route
+            path="/new-article"
+            element={
+              <PrivateRoute>
+                <CreateArticle />
+              </PrivateRoute>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </div>

@@ -43,6 +43,12 @@ function Article({ article }) {
     }
   };
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const options = { month: 'short', day: 'numeric', year: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
+  };
+
   return (
     <div className={styles.article}>
       <div className={styles.article__container}>
@@ -81,7 +87,7 @@ function Article({ article }) {
         <div className={styles.article__author}>
           <div className={styles.article__info}>
             <p className={styles.article__name}>{article.author.username}</p>
-            <p className={styles.article__date}>{new Date(article.createdAt).toLocaleDateString()}</p>
+            <p className={styles.article__date}>{formatDate(article.createdAt)}</p>
           </div>
           <img className={styles.article__img} src={article.author.image || profile} alt="logo" />
         </div>

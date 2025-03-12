@@ -103,7 +103,7 @@ function CurrentArticle() {
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <div></div>;
   }
 
   const isAuthor = isLoggedIn && article && currentUsername === article.author.username;

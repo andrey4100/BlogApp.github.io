@@ -1,5 +1,5 @@
 /* eslint-disable no-shadow */
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -10,17 +10,20 @@ import styles from './Login.module.scss';
 function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { status, error } = useSelector((state) => state.user);
+  const { status, errors } = useSelector((state) => state.user);
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors: formErrors },
   } = useForm({
     mode: 'onBlur',
   });
 
+  const [formSubmitted, setFormSubmitted] = useState(false);
+
   const onSubmit = async (data) => {
+    setFormSubmitted(true);
     try {
       await dispatch(signIn({ email: data.email, password: data.password })).unwrap();
       navigate('/');
@@ -29,6 +32,8 @@ function Login() {
       console.error('Login failed:', error);
     }
   };
+
+  const hasValidationErrors = () => Object.keys(formErrors).length > 0;
 
   return (
     <div className={styles.login}>
@@ -39,7 +44,7 @@ function Login() {
             Email address
           </label>
           <input
-            className={`${styles.login__input} ${errors.email ? styles.errorInput : ''}`}
+            className={`${styles.login__input} ${formErrors.email ? styles.errorInput : ''}`}
             type="email"
             id="email"
             name="email"
@@ -52,14 +57,14 @@ function Login() {
               },
             })}
           />
-          {errors.email && <p className={`${styles.error} ${styles.errorMessage}`}>{errors.email.message}</p>}
+          {formErrors.email && <p className={`${styles.error} ${styles.errorMessage}`}>{formErrors.email.message}</p>}
         </div>
         <div className={styles.login__block}>
           <label className={styles.login__label} htmlFor="password">
             Password
           </label>
           <input
-            className={`${styles.login__input} ${errors.password ? styles.errorInput : ''}`}
+            className={`${styles.login__input} ${formErrors.password ? styles.errorInput : ''} ${formSubmitted && errors.incorrectPasswordOrEmail && !hasValidationErrors() ? styles.errorInput : ''}`}
             type="password"
             id="password"
             name="password"
@@ -68,14 +73,16 @@ function Login() {
               required: 'This field is required',
             })}
           />
-          {errors.password && <p className={`${styles.error} ${styles.errorMessage}`}>{errors.password.message}</p>}
+          {formErrors.password && <p className={`${styles.error} ${styles.errorMessage}`}>{formErrors.password.message}</p>}
+          {formSubmitted && errors.incorrectPasswordOrEmail && !hasValidationErrors() && (
+            <p className={`${styles.error} ${styles.errorMessage}`}>{errors.incorrectPasswordOrEmail}</p>
+          )}
         </div>
         {status === 'loading'}
-        {error && <p>Error: {error}</p>}
         <button
           className={styles.login__button}
           type="submit"
-          disabled={status === 'loading' || Object.keys(errors).length > 0}
+          disabled={status === 'loading' || Object.keys(formErrors).length > 0}
         >
           Login
         </button>

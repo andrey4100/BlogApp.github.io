@@ -39,19 +39,31 @@ export const signUp = createAsyncThunk('user/signUp', async (registrationData, {
 
     if (res.status === 422) {
       const bodyError = await res.json();
-      return rejectWithValue(bodyError.errors);
+
+      const errorsMessage = {};
+
+      if (bodyError.errors.username) {
+        errorsMessage.username = 'A user with this name already exists';
+      }
+
+      if (bodyError.errors.email) {
+        errorsMessage.email = 'A user with this email already exists';
+      }
+
+      throw new Error(JSON.stringify(errorsMessage));
     }
 
     if (!res.ok) {
-      const errorData = await res.json();
-      return rejectWithValue(errorData.errors);
+      throw new Error(JSON.stringify({ signUpError: 'Something went wrong' }));
     }
 
     const body = await res.json();
+
     localStorage.setItem('user', JSON.stringify(body.user));
+
     return body.user;
   } catch (error) {
-    return rejectWithValue({ message: error.message });
+    return rejectWithValue(JSON.parse(error.message));
   }
 });
 
@@ -69,20 +81,20 @@ export const signIn = createAsyncThunk('user/signIn', async (loginData, { reject
     });
 
     if (res.status === 422) {
-      const bodyError = await res.json();
-      return rejectWithValue(bodyError.errors);
+      throw new Error(JSON.stringify({ incorrectPasswordOrEmail: 'The email or password was entered incorrectly' }));
     }
 
     if (!res.ok) {
-      const errorData = await res.json();
-      return rejectWithValue(errorData.errors);
+      throw new Error(JSON.stringify({ signInError: 'Something went wrong' }));
     }
 
     const body = await res.json();
+
     localStorage.setItem('user', JSON.stringify(body.user));
+
     return body.user;
   } catch (error) {
-    return rejectWithValue({ message: error.message });
+    return rejectWithValue(JSON.parse(error.message));
   }
 });
 

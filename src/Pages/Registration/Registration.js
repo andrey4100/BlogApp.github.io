@@ -1,23 +1,20 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-/* eslint-disable no-console */
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-
-import { signUp } from '../../store/userSlice';
+import { signUp } from '../../store/userSlice'
 
 import styles from './Registration.module.scss';
 
 function Registration() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { status, error } = useSelector((state) => state.user);
+  const { status, errors } = useSelector((state) => state.user);
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors: formErrors }, 
     watch,
   } = useForm({
     mode: 'onChange',
@@ -29,7 +26,6 @@ function Registration() {
     try {
       await dispatch(signUp({ username: data.username, email: data.email, password: data.password })).unwrap();
       navigate('/');
-      // eslint-disable-next-line no-shadow
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error('Registration failed:', error);
@@ -45,7 +41,7 @@ function Registration() {
             Username
           </label>
           <input
-            className={`${styles.registration__input} ${errors.username ? styles.errorInput : ''}`}
+            className={`${styles.registration__input} ${formErrors.username ? styles.errorInput : ''}`}
             type="text"
             id="username"
             name="username"
@@ -62,14 +58,15 @@ function Registration() {
               },
             })}
           />
-          {errors.username && <p className={`${styles.error} ${styles.errorMessage}`}>{errors.username.message}</p>}
+          {formErrors.username && <p className={`${styles.error} ${styles.errorMessage}`}>{formErrors.username.message}</p>}
+          {errors.username && <p className={`${styles.error} ${styles.errorMessage}`}>{errors.username}</p>}
         </div>
         <div className={styles.registration__block}>
           <label className={styles.registration__label} htmlFor="email">
             Email address
           </label>
           <input
-            className={`${styles.registration__input} ${errors.email ? styles.errorInput : ''}`}
+            className={`${styles.registration__input} ${formErrors.email ? styles.errorInput : ''}`}
             type="email"
             id="email"
             name="email"
@@ -82,14 +79,15 @@ function Registration() {
               },
             })}
           />
-          {errors.email && <p className={`${styles.error} ${styles.errorMessage}`}>{errors.email.message}</p>}
+            {formErrors.email && <p className={`${styles.error} ${styles.errorMessage}`}>{formErrors.email.message}</p>}
+          {errors.email && <p className={`${styles.error} ${styles.errorMessage}`}>{errors.email}</p>}
         </div>
         <div className={styles.registration__block}>
           <label className={styles.registration__label} htmlFor="password">
             Password
           </label>
           <input
-            className={`${styles.registration__input} ${errors.password ? styles.errorInput : ''}`}
+            className={`${styles.registration__input} ${formErrors.password ? styles.errorInput : ''}`}
             type="password"
             id="password"
             name="password"
@@ -106,14 +104,14 @@ function Registration() {
               },
             })}
           />
-          {errors.password && <p className={`${styles.error} ${styles.errorMessage}`}>{errors.password.message}</p>}
+          {formErrors.password && <p className={`${styles.error} ${styles.errorMessage}`}>{formErrors.password.message}</p>}
         </div>
         <div className={styles.registration__block}>
           <label className={styles.registration__label} htmlFor="repeat_password">
             Repeat Password
           </label>
           <input
-            className={`${styles.registration__input} ${errors.repeat_password ? styles.errorInput : ''}`}
+            className={`${styles.registration__input} ${formErrors.repeat_password ? styles.errorInput : ''}`}
             type="password"
             id="repeat_password"
             name="repeat_password"
@@ -123,8 +121,8 @@ function Registration() {
               validate: (value) => value === password || 'The passwords must match',
             })}
           />
-          {errors.repeat_password && (
-            <p className={`${styles.error} ${styles.errorMessage}`}>{errors.repeat_password.message}</p>
+          {formErrors.repeat_password && (
+            <p className={`${styles.error} ${styles.errorMessage}`}>{formErrors.repeat_password.message}</p>
           )}
         </div>
         <div className={styles.registration__checkbox}>
@@ -140,33 +138,24 @@ function Registration() {
           <label
             className={styles.registration__labelCheckbox}
             htmlFor="agree"
-            onClick={() => {
-              console.log('Label Clicked');
-              console.log('Errors before click:', errors);
-              const checkbox = document.getElementById('agree');
-              console.log('Checkbox element:', checkbox);
-              if (checkbox) {
-                console.log('Checkbox checked state before click:', checkbox.checked);
-              }
-            }}
           >
             I agree to the processing of my personal information
           </label>
         </div>
         <div className={styles.registration__checkboxErrorWrapper}>
-          {errors.agree && <p className={`${styles.error} ${styles.errorMessage}`}>{errors.agree.message}</p>}
+          {formErrors.agree && <p className={`${styles.error} ${styles.errorMessage}`}>{formErrors.agree.message}</p>}
         </div>
         {status === 'loading'}
-        {error && <p>Error: {error}</p>}
+        {errors.general && <p className={`${styles.error} ${styles.errorMessage}`}>{errors.general}</p>}
         <button
           className={styles.registration__button}
           type="submit"
-          disabled={status === 'loading' || Object.keys(errors).length > 0}
+          disabled={status === 'loading' || Object.keys(formErrors).length > 0}
         >
           Create
         </button>
         <div className={styles.registration__footer}>
-          Already have an account?{' '}
+          Already have an account?
           <a className={styles.registration__link} href="/login">
             Sign In.
           </a>
