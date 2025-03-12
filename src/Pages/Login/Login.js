@@ -33,7 +33,6 @@ function Login() {
     }
   };
 
-
   const hasValidationErrors = () => Object.keys(formErrors).length > 0;
 
   return (
@@ -74,7 +73,9 @@ function Login() {
               required: 'This field is required',
             })}
           />
-          {formErrors.password && <p className={`${styles.error} ${styles.errorMessage}`}>{formErrors.password.message}</p>}
+          {formErrors.password && (
+            <p className={`${styles.error} ${styles.errorMessage}`}>{formErrors.password.message}</p>
+          )}
           {formSubmitted && errors.incorrectPasswordOrEmail && !hasValidationErrors() && (
             <p className={`${styles.error} ${styles.errorMessage}`}>{errors.incorrectPasswordOrEmail}</p>
           )}
