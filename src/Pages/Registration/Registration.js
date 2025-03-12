@@ -90,9 +90,7 @@ function Registration() {
               },
             })}
           />
-          {formErrors.email && (
-            <p className={`${styles.error} ${styles.errorMessage}`}>{formErrors.email.message}</p>
-          )}
+          {formErrors.email && <p className={`${styles.error} ${styles.errorMessage}`}>{formErrors.email.message}</p>}
           {formSubmitted && errors.email && !formErrors.email && (
             <p className={`${styles.error} ${styles.errorMessage}`}>{errors.email}</p>
           )}
